@@ -38,6 +38,16 @@ function getGCRTags(string $repo): generator {
 function getLastVersion(string $repo): ?string {
 	$max = NULL;
 	foreach (getTags($repo) as $tag) {
+		if (preg_match('~\brc\b~i', $tag)) {
+			// ignore unparsable python:3.7-rc-alpine3.6
+			continue;
+		}
+		$parts = explode('.', $tag, 3);
+		if (preg_match('~^\d+-?(a(lpha)?|b(eta)?|rc)~', end($parts))) {
+			// ignore prerelease tag
+			continue;
+		}
+
 		if (version_compare($tag, $max, '>')) {
 			$max = $tag;
 		}
@@ -49,15 +59,17 @@ $config = yaml_parse_file(__DIR__ . '/conf.yaml');
 
 foreach ($config['watch'] as $repo => $data) {
 	$latest = getLastVersion($repo);
-	echo "$repo $data[version] ";
+	$prefix = "$repo $data[version]";
 	if (version_compare($data['version'], $latest, '<')) {
-		echo "is outdated: latest is $latest\n";
+		echo "\e[0;31m";
+		echo "$prefix is outdated: latest is $latest\n";
 		$uses = $data['uses'] ?? [];
 		if ($uses) {
 			echo "  used in " . implode(', ', $uses) . "\n";
 		}
+		echo "\e[0m";
 
 	} else {
-		echo "is up-to-date\n";
+		echo "$prefix is up-to-date\n";
 	}
 }
