@@ -48,6 +48,17 @@ function getLastVersion(string $repo): ?string {
 			continue;
 		}
 
+		// ignore invalid or mistake old tags
+		if ($repo === 'gcr.io/google_containers/nginx-ingress-controller') {
+			if (in_array($tag, ['0.61', '0.62'], TRUE)) {
+				continue;
+			}
+		} elseif ($repo === 'nginx') {
+			if (in_array($tag, ['perl'], TRUE)) {
+				continue;
+			}
+		}
+
 		if (version_compare($tag, $max, '>')) {
 			$max = $tag;
 		}
