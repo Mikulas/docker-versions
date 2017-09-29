@@ -1,8 +1,8 @@
 watch:
   mediawiki:
-    version: 1.29
+    version: 1.29.1
   python:
-    version: 3.6-alpine
+    version: 3.6.2
     uses: [aws-cli]
   alpine:
     version: 3.4
@@ -13,21 +13,21 @@ watch:
   node:
     version: 7.9
     user: [ci-kubernetes]
-  gcr.io/google-containers/fluentd-gcp:
-    version: 2.0.2
-    uses: [fluentd-remote-syslog]
+  gliderlabs/logspout:
+    version: v3.2.3
+    uses: [papertrail]
   golang:
-    version: 1.9-stretch
+    version: 1.9.0
     uses: [golang-build]
   jenkins/jenkins:
-    version: 2.78-alpine
+    version: 2.81
   nginx:
     version: 1.11-alpine
   gcr.io/google_containers/heapster-influxdb-amd64:
     version: v1.3.3
     uses: [heapster]
   gcr.io/google_containers/heapster-amd64:
-    version: v1.4.0
+    version: v1.4.2
     uses: [heapster]
   gcr.io/google_containers/heapster-grafana-amd64:
     version: v4.4.3
