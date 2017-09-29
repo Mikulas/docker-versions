@@ -54,7 +54,7 @@ function getLastVersion(string $repo): ?string {
 				continue;
 			}
 		} elseif ($repo === 'nginx') {
-			if (in_array($tag, ['perl'], TRUE)) {
+			if (in_array($tag, ['perl', '1-perl'], TRUE)) {
 				continue;
 			}
 		}
