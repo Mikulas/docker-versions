@@ -43,7 +43,7 @@ function getLastVersion(string $repo): ?string {
 			continue;
 		}
 		$parts = explode('.', $tag, 3);
-		if (preg_match('~^\d+-?(a(lpha)?|b(eta)?|rc)~', end($parts))) {
+		if (preg_match('~^\d+-?(a(lpha)?|b(eta)?|dev|rc)~', end($parts))) {
 			// ignore prerelease tag
 			continue;
 		}
